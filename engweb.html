@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnEnglish Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* Login/Signup Page */
+        .auth-page {
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .toggle-auth {
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .toggle-link {
+            color: #2a5298;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .error-msg {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .level-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .level-card.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f5f5f5;
+        }
+
+        .level-card.completed {
+            border-color: #4caf50;
+            background: #f1f8f4;
+        }
+
+        .level-card.unlocked:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .level-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .level-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .level-desc {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .level-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-locked {
+            background: #e0e0e0;
+            color: #999;
+        }
+
+        .status-unlocked {
+            background: #2a5298;
+            color: white;
+        }
+
+        .status-completed {
+            background: #4caf50;
+            color: white;
+        }
+
+        /* Lesson Page */
+        .lesson-page {
+            display: none;
+            padding: 40px;
+        }
+
+        .back-btn {
+            background: #e0e0e0;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .lesson-content {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .vocabulary-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .vocab-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2a5298;
+        }
+
+        .vocab-word {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .vocab-type {
+            color: #2a5298;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .vocab-meaning {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .vocab-example {
+            color: #888;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .grammar-rule {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #7e22ce;
+        }
+
+        .rule-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .rule-example {
+            color: #666;
+            margin-left: 20px;
+        }
+
+        /* Quiz Page */
+        .quiz-page {
+            display: none;
+            padding: 40px;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+            transition: width 0.3s;
+        }
+
+        .question-card {
+            background: #f9f9f9;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option {
+            background: white;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: #2a5298;
+            background: #f0f4ff;
+        }
+
+        .option.selected {
+            border-color: #2a5298;
+            background: #e8eeff;
+        }
+
+        .option.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .quiz-actions {
+            text-align: center;
+        }
+
+        .result-page {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .result-score {
+            font-size: 48px;
+            color: #2a5298;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Page -->
+        <div class="auth-page" id="loginPage">
+            <div class="logo">📚</div>
+            <h1>Karunya English Hub</h1>
+            <p class="subtitle">Master English Grammar and Communication</p>
+            
+            <form id="loginForm" style="max-width: 400px; margin: 0 auto;">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <div class="error-msg" id="loginError"></div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <p class="toggle-auth">Don't have an account? <span class="toggle-link" onclick="showSignup()">Sign Up</span></p>
+        </div>
+
+        <!-- Signup Page -->
+        <div class="auth-page hidden" id="signupPage">
+            <div class="logo">📚</div>
+            <h1>Create Account</h1>
+            <p class="subtitle">Join and Learn English today</p>
+            
+            <form id="signupForm" style="max-width: 400px; margin: 0 auto;">
+                <div class="form-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Choose a password" required>
+                </div>
+                <div class="error-msg" id="signupError"></div>
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+            <p class="toggle-auth">Already have an account? <span class="toggle-link" onclick="showLogin()">Login</span></p>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <div class="header">
+                <div>
+                    <h2>Karunya English Hub</h2>
+                    <p id="welcomeMsg">Welcome back!</p>
+                </div>
+                <div class="user-info">
+                    <span id="userDisplay"></span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+            
+            <div class="content">
+                <h2>Your Learning Journey</h2>
+                <div class="levels-grid" id="levelsGrid"></div>
+            </div>
+        </div>
+
+        <!-- Lesson Page -->
+        <div class="lesson-page" id="lessonPage">
+            <button class="back-btn" onclick="backToDashboard()">← Back to Dashboard</button>
+            <h2 id="lessonTitle"></h2>
+            <div class="lesson-content" id="lessonContent"></div>
+            <button class="btn" onclick="startQuiz()" style="max-width: 300px;">Start Quiz</button>
+        </div>
+
+        <!-- Quiz Page -->
+        <div class="quiz-page" id="quizPage">
+            <div class="quiz-header">
+                <h2 id="quizTitle"></h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="questionCounter"></p>
+            </div>
+            <div id="quizContent"></div>
+        </div>
+
+        <!-- Result Page -->
+        <div class="result-page" id="resultPage">
+            <div class="result-icon" id="resultIcon"></div>
+            <h2>Quiz Complete!</h2>
+            <div class="result-score" id="resultScore"></div>
+            <p id="resultMessage" style="font-size: 18px; color: #666; margin-bottom: 30px;"></p>
+            <button class="btn" onclick="backToDashboard()" style="max-width: 300px;">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = '';
+        let userProgress = {};
+        let users = {};
+        let currentLevel = null;
+        let currentQuestion = 0;
+        let quizAnswers = [];
+
+        const levels = [
+            {
+                id: 1,
+                title: "Level 1: Simple Sentences",
+                icon: "✏️",
+                description: "Learn to build basic simple sentences with subject and verb",
+                vocabulary: [
+                    { word: "Subject", type: "noun", meaning: "The person or thing doing the action", example: "The dog runs fast." },
+                    { word: "Verb", type: "noun", meaning: "The action word in a sentence", example: "She reads a book." },
+                    { word: "Object", type: "noun", meaning: "The person or thing receiving the action", example: "I eat an apple." },
+                    { word: "Adjective", type: "noun", meaning: "A word that describes a noun", example: "The beautiful flower blooms." },
+                    { word: "Adverb", type: "noun", meaning: "A word that describes a verb", example: "He runs quickly." },
+                    { word: "Noun", type: "noun", meaning: "A person, place, or thing", example: "The cat sits on the mat." }
+                ],
+                grammar: [
+                    { rule: "Simple Sentence", explanation: "A sentence with one subject and one verb.", example: "She sings.\nThe bird flies.\nI study English." },
+                    { rule: "Subject + Verb + Object", explanation: "The basic sentence structure in English.", example: "John plays football.\nMary reads books.\nThey eat lunch." }
+                ],
+                quiz: [
+                    {
+                        question: "Identify the subject in: 'The cat sleeps on the bed.'",
+                        options: ["sleeps", "The cat", "on the bed", "bed"],
+                        correct: 1
+                    },
+                    {
+                        question: "Which is a simple sentence?",
+                        options: [
+                            "I like tea and she likes coffee.",
+                            "The dog barks.",
+                            "When I go home, I will eat.",
+                            "She is happy because she won."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the verb in: 'Children play in the park.'",
+                        options: ["Children", "play", "park", "in"],
+                        correct: 1
+                    },
+                    {
+                        question: "Choose the correct simple sentence:",
+                        options: [
+                            "She and he go.",
+                            "Because it rained.",
+                            "When I arrive.",
+                            "If you come."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is the object in: 'I drink water.'",
+                        options: ["I", "drink", "water", "none"],
+                        correct: 2
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Level 2: Compound Sentences",
+                icon: "🔗",
+                description: "Connect two simple sentences using conjunctions",
+                vocabulary: [
+                    { word: "And", type: "conjunction", meaning: "Used to connect similar ideas", example: "I like tea and she likes coffee." },
+                    { word: "But", type: "conjunction", meaning: "Used to show contrast", example: "I am tired but happy." },
+                    { word: "Or", type: "conjunction", meaning: "Used to show choice", example: "Do you want tea or coffee?" },
+                    { word: "So", type: "conjunction", meaning: "Used to show result", example: "It rained, so I stayed home." },
+                    { word: "Yet", type: "conjunction", meaning: "Used to show contrast (like but)", example: "It is cold, yet sunny." },
+                    { word: "For", type: "conjunction", meaning: "Used to show reason", example: "I stayed home, for I was sick." }
+                ],
+                grammar: [
+                    { rule: "Compound Sentence", explanation: "Two simple sentences joined by a conjunction (and, but, or, so).", example: "I studied hard, and I passed the exam.\nShe is tired, but she is happy.\nWe can walk, or we can take the bus." },
+                    { rule: "Using Comma with Conjunctions", explanation: "Put a comma before the conjunction in a compound sentence.", example: "He likes coffee, but I prefer tea.\nIt was raining, so we stayed inside." }
+                ],
+                quiz: [
+                    {
+                        question: "Which conjunction shows contrast?",
+                        options: ["and", "but", "or", "so"],
+                        correct: 1
+                    },
+                    {
+                        question: "Choose the correct compound sentence:",
+                        options: [
+                            "I am tired I will sleep.",
+                            "I am tired, but I will work.",
+                            "I am tired work.",
+                            "Because I am tired."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Complete: 'It was raining, ___ we stayed home.'",
+                        options: ["and", "but", "so", "or"],
+                        correct: 2
+                    },
+                    {
+                        question: "Which is a compound sentence?",
+                        options: [
+                            "She sings beautifully.",
+                            "When he comes home.",
+                            "I like pizza, and she likes pasta.",
+                            "Because it is cold."
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Where should the comma go? 'I want to go but I am busy.'",
+                        options: [
+                            "I want to go, but I am busy.",
+                            "I want, to go but I am busy.",
+                            "I want to go but, I am busy.",
+                            "No comma needed"
+                        ],
+                        correct: 0
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Level 3: Complex Sentences",
+                icon: "🧩",
+                description: "Learn to use dependent and independent clauses",
+                vocabulary: [
+                    { word: "Because", type: "conjunction", meaning: "Shows reason or cause", example: "I stayed home because it rained." },
+                    { word: "Although", type: "conjunction", meaning: "Shows contrast (similar to though)", example: "Although it was late, we kept working." },
+                    { word: "When", type: "conjunction", meaning: "Shows time", example: "When I arrive, I will call you." },
+                    { word: "If", type: "conjunction", meaning: "Shows condition", example: "If it rains, we will stay inside." },
+                    { word: "While", type: "conjunction", meaning: "Shows two things happening at the same time", example: "I read while she cooks." },
+                    { word: "Since", type: "conjunction", meaning: "Shows reason or time", example: "Since you are here, let's start." }
+                ],
+                grammar: [
+                    { rule: "Complex Sentence", explanation: "A sentence with one independent clause and one dependent clause.", example: "Because it rained, we stayed home.\nI will call you when I arrive.\nIf you study, you will pass." },
+                    { rule: "Dependent Clause", explanation: "A clause that cannot stand alone (starts with because, when, if, although, etc.).", example: "Because it rained (incomplete)\nWhen I arrive (incomplete)\nIf you come (incomplete)" },
+                    { rule: "Comma Rule", explanation: "If the dependent clause comes first, use a comma.", example: "When it rains, I stay home.\nI stay home when it rains. (no comma)" }
+                ],
+                quiz: [
+                    {
+                        question: "Which word makes a dependent clause?",
+                        options: ["and", "but", "because", "so"],
+                        correct: 2
+                    },
+                    {
+                        question: "Choose the correct complex sentence:",
+                        options: [
+                            "I am happy and she is sad.",
+                            "When it rains, I stay home.",
+                            "She sings beautifully.",
+                            "I like tea, but she likes coffee."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Where does the comma go? 'If you study you will pass.'",
+                        options: [
+                            "If you study, you will pass.",
+                            "If, you study you will pass.",
+                            "If you, study you will pass.",
+                            "No comma needed"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Complete: '___ I was tired, I finished my work.'",
+                        options: ["And", "But", "Although", "So"],
+                        correct: 2
+                    },
+                    {
+                        question: "Which is a dependent clause?",
+                        options: [
+                            "I went home",
+                            "She is happy",
+                            "Because it was cold",
+                            "They play football"
+                        ],
+                        correct: 2
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Level 4: Active & Passive Voice",
+                icon: "🔄",
+                description: "Learn the difference between active and passive voice",
+                vocabulary: [
+                    { word: "Active Voice", type: "grammar term", meaning: "Subject does the action", example: "The cat ate the fish." },
+                    { word: "Passive Voice", type: "grammar term", meaning: "Subject receives the action", example: "The fish was eaten by the cat." },
+                    { word: "By", type: "preposition", meaning: "Shows who did the action in passive voice", example: "The book was written by her." },
+                    { word: "Was/Were", type: "helping verb", meaning: "Used in past passive voice", example: "The cake was baked yesterday." },
+                    { word: "Is/Are", type: "helping verb", meaning: "Used in present passive voice", example: "The house is cleaned every day." },
+                    { word: "Been", type: "helping verb", meaning: "Used with has/have/had in passive voice", example: "The letter has been sent." }
+                ],
+                grammar: [
+                    { rule: "Active Voice Structure", explanation: "Subject + Verb + Object", example: "Active: John writes a letter.\nActive: The teacher explains the lesson.\nActive: They built a house." },
+                    { rule: "Passive Voice Structure", explanation: "Object + is/are/was/were + Past Participle (+ by + Subject)", example: "Passive: A letter is written by John.\nPassive: The lesson is explained by the teacher.\nPassive: A house was built by them." },
+                    { rule: "When to Use Passive", explanation: "Use passive when the doer is unknown or less important than the action.", example: "My car was stolen. (We don't know who)\nEnglish is spoken here. (Who speaks it is not important)" }
+                ],
+                quiz: [
+                    {
+                        question: "Which is in active voice?",
+                        options: [
+                            "The cake was eaten by the children.",
+                            "The children ate the cake.",
+                            "The cake is eaten.",
+                            "The cake has been eaten."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Change to passive: 'She writes a letter.'",
+                        options: [
+                            "A letter writes by her.",
+                            "A letter is written by her.",
+                            "A letter was writing by her.",
+                            "A letter written by her."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which is in passive voice?",
+                        options: [
+                            "I love music.",
+                            "They play football.",
+                            "The book was read by many people.",
+                            "She teaches English."
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Change to active: 'The house was built by workers.'",
+                        options: [
+                            "Workers built the house.",
+                            "Workers build the house.",
+                            "Workers building the house.",
+                            "Workers were built the house."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which sentence needs passive voice? (doer unknown)",
+                        options: [
+                            "She cooked dinner.",
+                            "My wallet was stolen.",
+                            "He drives a car.",
+                            "They clean the office."
+                        ],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "Level 5: Direct & Indirect Speech",
+                icon: "💬",
+                description: "Learn to report what someone said",
+                vocabulary: [
+                    { word: "Direct Speech", type: "grammar term", meaning: "Exact words someone said (in quotes)", example: "He said, 'I am happy.'" },
+                    { word: "Indirect Speech", type: "grammar term", meaning: "Reporting what someone said (no quotes)", example: "He said that he was happy." },
+                    { word: "Said", type: "verb", meaning: "Past tense of say, used in reporting", example: "She said that she was tired." },
+                    { word: "Told", type: "verb", meaning: "Said to someone (needs object)", example: "He told me that he was leaving." },
+                    { word: "That", type: "conjunction", meaning: "Used to connect reported speech", example: "She said that she would come." },
+                    { word: "Asked", type: "verb", meaning: "Used to report questions", example: "He asked if I was ready." }
+                ],
+                grammar: [
+                    { rule: "Direct to Indirect - Statements", explanation: "Change pronouns and tense, remove quotes.", example: "Direct: He said, 'I am happy.'\nIndirect: He said that he was happy.\n\nDirect: She said, 'I like coffee.'\nIndirect: She said that she liked coffee." },
+                    { rule: "Direct to Indirect - Questions", explanation: "Use asked instead of said, change to statement word order.", example: "Direct: He asked, 'Are you ready?'\nIndirect: He asked if I was ready.\n\nDirect: She asked, 'Where do you live?'\nIndirect: She asked where I lived." },
+                    { rule: "Tense Changes", explanation: "Present → Past, Past → Past Perfect", example: "am/is → was, are → were\ndo/does → did, did → had done\nwill → would, can → could" }
+                ],
+                quiz: [
+                    {
+                        question: "Change to indirect: He said, 'I am tired.'",
+                        options: [
+                            "He said that I am tired.",
+                            "He said that he was tired.",
+                            "He said that he is tired.",
+                            "He said I was tired."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Change to indirect: She said, 'I will come tomorrow.'",
+                        options: [
+                            "She said that she will come tomorrow.",
+                            "She said that she would come tomorrow.",
+                            "She said she comes tomorrow.",
+                            "She said that I would come tomorrow."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Change to direct: He asked if I was ready.",
+                        options: [
+                            "He asked, 'Am I ready?'",
+                            "He asked, 'Are you ready?'",
+                            "He asked, 'Is he ready?'",
+                            "He asked, 'Was you ready?'"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which is correct indirect speech?",
+                        options: [
+                            "She said that 'I am happy.'",
+                            "She said that I am happy.",
+                            "She said that she was happy.",
+                            "She said she is happy."
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Change to indirect: 'Where do you live?' he asked.",
+                        options: [
+                            "He asked where do I live.",
+                            "He asked where I lived.",
+                            "He asked where you live.",
+                            "He asked where did I live."
+                        ],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "Level 6: Prepositions",
+                icon: "📍",
+                description: "Master common prepositions of time, place, and direction",
+                vocabulary: [
+                    { word: "In", type: "preposition", meaning: "Inside something, or during a period", example: "The book is in the bag. / I wake up in the morning." },
+                    { word: "On", type: "preposition", meaning: "On top of something, or on a specific day", example: "The cup is on the table. / I will see you on Monday." },
+                    { word: "At", type: "preposition", meaning: "At a specific place or time", example: "She is at school. / The meeting is at 5 PM." },
+                    { word: "To", type: "preposition", meaning: "Shows direction or movement", example: "I am going to the market." },
+                    { word: "From", type: "preposition", meaning: "Shows starting point", example: "I come from India." },
+                    { word: "With", type: "preposition", meaning: "Together, accompanied by", example: "I live with my family." }
+                ],
+                grammar: [
+                    { rule: "Prepositions of Time", explanation: "at - specific time, on - days/dates, in - months/years/long periods", example: "at 5 o'clock, at night, at noon\non Monday, on March 15th, on my birthday\nin January, in 2024, in the morning, in summer" },
+                    { rule: "Prepositions of Place", explanation: "at - specific point, on - surface, in - enclosed space", example: "at the bus stop, at home, at the door\non the table, on the wall, on the floor\nin the room, in the box, in India" },
+                    { rule: "Prepositions of Direction", explanation: "to, from, into, out of, towards", example: "go to school, come from home\ngo into the room, come out of the house\nwalk towards the park" }
+                ],
+                quiz: [
+                    {
+                        question: "I will meet you ___ 5 o'clock.",
+                        options: ["in", "on", "at", "to"],
+                        correct: 2
+                    },
+                    {
+                        question: "My birthday is ___ June.",
+                        options: ["in", "on", "at", "to"],
+                        correct: 0
+                    },
+                    {
+                        question: "The book is ___ the table.",
+                        options: ["in", "on", "at", "from"],
+                        correct: 1
+                    },
+                    {
+                        question: "I am going ___ school.",
+                        options: ["in", "on", "at", "to"],
+                        correct: 3
+                    },
+                    {
+                        question: "She lives ___ New York.",
+                        options: ["in", "on", "at", "to"],
+                        correct: 0
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "Level 7: Phrases & Clauses",
+                icon: "📝",
+                description: "Understand the difference between phrases and clauses",
+                vocabulary: [
+                    { word: "Phrase", type: "grammar term", meaning: "A group of words without subject and verb together", example: "in the morning, very happy, to study hard" },
+                    { word: "Clause", type: "grammar term", meaning: "A group of words with both subject and verb", example: "I study, when she arrives, because it rained" },
+                    { word: "Noun Phrase", type: "grammar term", meaning: "A phrase that acts as a noun", example: "The big red car is mine." },
+                    { word: "Prepositional Phrase", type: "grammar term", meaning: "Starts with a preposition", example: "in the park, at school, on the table" },
+                    { word: "Independent Clause", type: "grammar term", meaning: "Can stand alone as a sentence", example: "I am happy." },
+                    { word: "Dependent Clause", type: "grammar term", meaning: "Cannot stand alone", example: "because I won" }
+                ],
+                grammar: [
+                    { rule: "Phrase vs Clause", explanation: "Phrase = no subject+verb together. Clause = has subject+verb.", example: "Phrase: in the morning (no verb)\nPhrase: very beautiful (no subject+verb)\nClause: I go to school (has I + go)\nClause: when she arrives (has she + arrives)" },
+                    { rule: "Types of Phrases", explanation: "Noun phrase, verb phrase, prepositional phrase, adjective phrase", example: "Noun phrase: the tall boy\nVerb phrase: is running fast\nPrepositional phrase: under the tree\nAdjective phrase: very beautiful" },
+                    { rule: "Types of Clauses", explanation: "Independent (can stand alone) and Dependent (needs main clause)", example: "Independent: I am happy.\nDependent: because I won\nFull sentence: I am happy because I won." }
+                ],
+                quiz: [
+                    {
+                        question: "Which is a phrase (not a clause)?",
+                        options: [
+                            "I am happy",
+                            "in the morning",
+                            "when she comes",
+                            "because it rained"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which is a clause?",
+                        options: [
+                            "under the table",
+                            "very quickly",
+                            "she is reading",
+                            "to go home"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Identify the prepositional phrase: 'The cat under the table is sleeping.'",
+                        options: [
+                            "The cat",
+                            "under the table",
+                            "is sleeping",
+                            "The cat under"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which is an independent clause?",
+                        options: [
+                            "because I am tired",
+                            "when she arrives",
+                            "I will go home",
+                            "if it rains"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "How many clauses are in: 'I study because I want to learn.'",
+                        options: ["0", "1", "2", "3"],
+                        correct: 2
+                    }
+                ]
+            },
+            {
+                id: 8,
+                title: "Level 8: Spoken English Basics",
+                icon: "🗣️",
+                description: "Learn common expressions and conversational English",
+                vocabulary: [
+                    { word: "How are you?", type: "phrase", meaning: "Greeting asking about someone's condition", example: "A: How are you? B: I'm fine, thank you." },
+                    { word: "Nice to meet you", type: "phrase", meaning: "Polite phrase when meeting someone first time", example: "Hello, I'm John. Nice to meet you." },
+                    { word: "Excuse me", type: "phrase", meaning: "Polite way to get attention or apologize", example: "Excuse me, where is the library?" },
+                    { word: "Thank you", type: "phrase", meaning: "Expression of gratitude", example: "Thank you for your help." },
+                    { word: "You're welcome", type: "phrase", meaning: "Response to thank you", example: "A: Thank you! B: You're welcome." },
+                    { word: "I'm sorry", type: "phrase", meaning: "Apology or expression of regret", example: "I'm sorry for being late." }
+                ],
+                grammar: [
+                    { rule: "Common Greetings", explanation: "How to greet people in different situations", example: "Formal: Good morning/afternoon/evening\nInformal: Hi! / Hello! / Hey!\nAsking: How are you? / How's it going?" },
+                    { rule: "Making Requests", explanation: "Polite ways to ask for something", example: "Can you help me?\nCould you please open the door?\nWould you mind closing the window?" },
+                    { rule: "Common Responses", explanation: "How to respond to common questions", example: "How are you? → I'm fine/good/great, thanks.\nThank you → You're welcome / No problem / My pleasure\nSorry → It's okay / No worries / That's alright" }
+                ],
+                quiz: [
+                    {
+                        question: "Which is a polite way to ask for help?",
+                        options: [
+                            "Give me help!",
+                            "Help me now!",
+                            "Could you please help me?",
+                            "You must help!"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the correct response to 'Thank you'?",
+                        options: [
+                            "Yes",
+                            "You're welcome",
+                            "No",
+                            "Okay"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "When meeting someone for the first time, say:",
+                        options: [
+                            "How are you always?",
+                            "See you later",
+                            "Nice to meet you",
+                            "Goodbye"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which is most polite?",
+                        options: [
+                            "Open the window!",
+                            "You open the window.",
+                            "Window open!",
+                            "Could you please open the window?"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        question: "What do you say to apologize?",
+                        options: [
+                            "I'm sorry",
+                            "You're welcome",
+                            "Thank you",
+                            "Hello"
+                        ],
+                        correct: 0
+                    }
+                ]
+            }
+        ];
+
+        function initializeProgress() {
+            if (!userProgress[currentUser]) {
+                userProgress[currentUser] = {
+                    completedLevels: [],
+                    currentLevel: 1
+                };
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('signupPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('loginError').textContent = '';
+        }
+
+        function showSignup() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('signupPage').classList.remove('hidden');
+            document.getElementById('signupError').textContent = '';
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            if (users[username]) {
+                document.getElementById('signupError').textContent = 'Username already exists!';
+                return;
+            }
+            
+            users[username] = { password, email };
+            currentUser = username;
+            initializeProgress();
+            showDashboard();
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!users[username]) {
+                document.getElementById('loginError').textContent = 'Username not found! Please sign up.';
+                return;
+            }
+            
+            if (users[username].password !== password) {
+                document.getElementById('loginError').textContent = 'Incorrect password!';
+                return;
+            }
+            
+            currentUser = username;
+            initializeProgress();
+            showDashboard();
+        });
+
+        function showDashboard() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('signupPage').classList.add('hidden');
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('userDisplay').textContent = currentUser;
+            document.getElementById('welcomeMsg').textContent = `Welcome back, ${currentUser}!`;
+            renderLevels();
+        }
+
+        function renderLevels() {
+            const grid = document.getElementById('levelsGrid');
+            grid.innerHTML = '';
+            
+            levels.forEach(level => {
+                const isCompleted = userProgress[currentUser].completedLevels.includes(level.id);
+                const isUnlocked = level.id === 1 || userProgress[currentUser].completedLevels.includes(level.id - 1);
+                
+                const card = document.createElement('div');
+                card.className = `level-card ${isCompleted ? 'completed' : isUnlocked ? 'unlocked' : 'locked'}`;
+                
+                let statusClass, statusText;
+                if (isCompleted) {
+                    statusClass = 'status-completed';
+                    statusText = '✓ Completed';
+                } else if (isUnlocked) {
+                    statusClass = 'status-unlocked';
+                    statusText = 'Start Learning';
+                } else {
+                    statusClass = 'status-locked';
+                    statusText = '🔒 Locked';
+                }
+                
+                card.innerHTML = `
+                    <div class="level-icon">${level.icon}</div>
+                    <div class="level-title">${level.title}</div>
+                    <div class="level-desc">${level.description}</div>
+                    <span class="level-status ${statusClass}">${statusText}</span>
+                `;
+                
+                if (isUnlocked) {
+                    card.onclick = () => openLesson(level);
+                }
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function openLesson(level) {
+            currentLevel = level;
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('lessonPage').style.display = 'block';
+            document.getElementById('lessonTitle').textContent = level.title;
+            
+            let content = '<div class="section"><h3>📚 Vocabulary</h3><div class="vocabulary-list">';
+            level.vocabulary.forEach(item => {
+                content += `
+                    <div class="vocab-item">
+                        <div class="vocab-word">${item.word}</div>
+                        <div class="vocab-type">${item.type}</div>
+                        <div class="vocab-meaning">${item.meaning}</div>
+                        <div class="vocab-example">"${item.example}"</div>
+                    </div>
+                `;
+            });
+            content += '</div></div>';
+            
+            if (level.grammar) {
+                content += '<div class="section"><h3>📝 Grammar Rules</h3>';
+                level.grammar.forEach(rule => {
+                    content += `
+                        <div class="grammar-rule">
+                            <div class="rule-title">${rule.rule}</div>
+                            <div style="color: #666; margin-bottom: 10px;">${rule.explanation}</div>
+                            <div class="rule-example"><em>${rule.example}</em></div>
+                        </div>
+                    `;
+                });
+                content += '</div>';
+            }
+            
+            document.getElementById('lessonContent').innerHTML = content;
+        }
+
+        function startQuiz() {
+            currentQuestion = 0;
+            quizAnswers = [];
+            document.getElementById('lessonPage').style.display = 'none';
+            document.getElementById('quizPage').style.display = 'block';
+            document.getElementById('quizTitle').textContent = `${currentLevel.title} - Quiz`;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const quiz = currentLevel.quiz;
+            const question = quiz[currentQuestion];
+            
+            document.getElementById('questionCounter').textContent = `Question ${currentQuestion + 1} of ${quiz.length}`;
+            document.getElementById('progressFill').style.width = `${((currentQuestion + 1) / quiz.length) * 100}%`;
+            
+            let html = `
+                <div class="question-card">
+                    <div class="question-text">${question.question}</div>
+                    <div class="options">
+            `;
+            
+            question.options.forEach((option, index) => {
+                html += `<div class="option" onclick="selectOption(${index})">${option}</div>`;
+            });
+            
+            html += `
+                    </div>
+                </div>
+                <div class="quiz-actions">
+                    <button class="btn" onclick="submitAnswer()" style="max-width: 300px;">Submit Answer</button>
+                </div>
+            `;
+            
+            document.getElementById('quizContent').innerHTML = html;
+        }
+
+        let selectedOption = null;
+
+        function selectOption(index) {
+            selectedOption = index;
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                opt.classList.toggle('selected', i === index);
+            });
+        }
+
+        function submitAnswer() {
+            if (selectedOption === null) {
+                alert('Please select an answer!');
+                return;
+            }
+            
+            const correct = currentLevel.quiz[currentQuestion].correct;
+            quizAnswers.push(selectedOption === correct);
+            
+            const options = document.querySelectorAll('.option');
+            options[correct].classList.add('correct');
+            if (selectedOption !== correct) {
+                options[selectedOption].classList.add('incorrect');
+            }
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < currentLevel.quiz.length) {
+                    selectedOption = null;
+                    showQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1500);
+        }
+
+        function showResults() {
+            const score = quizAnswers.filter(a => a).length;
+            const total = quizAnswers.length;
+            const percentage = Math.round((score / total) * 100);
+            
+            document.getElementById('quizPage').style.display = 'none';
+            document.getElementById('resultPage').style.display = 'block';
+            
+            if (percentage >= 80) {
+                document.getElementById('resultIcon').textContent = '🎉';
+                document.getElementById('resultMessage').textContent = 'Excellent! Next level unlocked!';
+                if (!userProgress[currentUser].completedLevels.includes(currentLevel.id)) {
+                    userProgress[currentUser].completedLevels.push(currentLevel.id);
+                }
+            } else {
+                document.getElementById('resultIcon').textContent = '📚';
+                document.getElementById('resultMessage').textContent = 'Keep practicing! You need 80% to pass and unlock the next level.';
+            }
+            
+            document.getElementById('resultScore').textContent = `${score}/${total} (${percentage}%)`;
+        }
+
+        function backToDashboard() {
+            document.getElementById('lessonPage').style.display = 'none';
+            document.getElementById('quizPage').style.display = 'none';
+            document.getElementById('resultPage').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            renderLevels();
+        }
+
+        function logout() {
+            currentUser = '';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginError').textContent = '';
+        }
+    </script>
+</body>
+</html>
